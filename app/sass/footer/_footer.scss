@@ -33,6 +33,12 @@
       size: 100%;
       object-fit: contain;
     }
+
+    @include breakpoint(max-width 1200px) {
+      margin-left: calc(50% - (198px/2));
+      margin-top: 20px;
+      margin-bottom: 20px;
+    }
   }
 
   &__links {
@@ -50,6 +56,8 @@
     @include breakpoint(max-width 1200px) {
       width: 100%;
       @include justify-content(center);
+      margin-top: 20px;
+      margin-bottom: 20px;
     }
 
     @include breakpoint(max-width 770px) {
@@ -119,5 +127,15 @@
       -webkit-background-size: contain;
       background-size: contain;
     }
+  }
+
+  &__art {
+    position: relative;
+    float: left;
+    width: 100%;
+    text-align: center;
+    color: black;
+    font-size: 20px;
+    line-height: 50px;
   }
 }
