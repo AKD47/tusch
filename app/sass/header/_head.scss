@@ -11,6 +11,12 @@
     padding-left: 160px;
     padding-right: 70px;
     @include box-sizing(border-box);
+
+    @include breakpoint(max-width 1200px) {
+      width: 100%;
+      padding-left: 20px;
+      padding-right: 20px;
+    }
   }
 
   &__logo {
@@ -26,6 +32,10 @@
       size: 100%;
       object-fit: contain;
     }
+
+    @include breakpoint(max-width 1200px) {
+      margin-left: calc(50% - (78px/2));
+    }
   }
 
   &__links {
@@ -39,6 +49,15 @@
     width: -moz-calc(100% - 78px);
     margin-top: 35px;
     margin-bottom: 30px;
+
+    @include breakpoint(max-width 1200px) {
+      width: 100%;
+      @include justify-content(center);
+    }
+
+    @include breakpoint(max-width 770px) {
+      @include flex-direction(column);
+    }
   }
 
   &__link {
@@ -49,13 +68,17 @@
     margin-right: 60px;
     padding-left: 40px;
     @include box-sizing(border-box);
-    
+
     &:hover {
       color: #000;
     }
 
     &:nth-child(3) {
       margin-right: 0;
+    }
+
+    @include breakpoint(max-width 770px) {
+      margin-bottom: 15px;
     }
 
     &--phone:before {
