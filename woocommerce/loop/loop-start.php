@@ -24,3 +24,5 @@ if ( ! defined( 'ABSPATH' ) ) {
 <div class="columns-<?php echo esc_attr( wc_get_loop_prop( 'columns' ) ); ?>">
 
     <?php echo do_shortcode('[catfiltr]'); ?>
+
+    <div class="category-posts" id="customCategoryPosts">

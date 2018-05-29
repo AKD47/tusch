@@ -212,3 +212,69 @@ function delay_remove_sorting() {
     remove_action( 'woocommerce_after_shop_loop', 'woocommerce_catalog_ordering', 30 );
     remove_action( 'woocommerce_before_shop_loop', 'woocommerce_catalog_ordering', 30 );
 }
+
+// category ajax
+add_action('wp_ajax_myCatAjax', 'my_action_cat_callback');
+add_action('wp_ajax_nopriv_myCatAjax', 'my_action_cat_callback');
+
+function my_action_cat_callback() {
+    $args = array(
+        'tax_query' => array(
+            array(
+                'taxonomy' => 'product_cat',
+                'field'    => 'id',
+                'terms'    => $_POST['postID']
+            )
+        )
+    );
+
+    $query = new WP_Query($args);
+    $posts = $query->posts;
+    foreach ($posts as $post){
+        $short = CFS()->get('short_description', $post->ID);
+        $post->post_mime_type = $short;
+        $thumbnail = get_the_post_thumbnail( $post->ID, 'medium', $default_attr = array(
+            'class' => "woocommerce-placeholder wp-post-image",
+            'alt'   => trim(strip_tags( $post->post_title )),
+            'title' => trim(strip_tags( $post->post_title )),
+        ));
+        $post->post_modified = $thumbnail;
+    }
+
+    echo json_encode($posts);
+
+    wp_die();
+}
+
+// subcategory ajax
+add_action('wp_ajax_mySubcatAjax', 'my_action_subcaT_callback');
+add_action('wp_ajax_nopriv_mySubcatAjax', 'my_action_subcaT_callback');
+
+function my_action_subcaT_callback() {
+    $args = array(
+        'tax_query' => array(
+            array(
+                'taxonomy' => 'product_cat',
+                'field'    => 'id',
+                'terms'    => $_POST['postID']
+            )
+        )
+    );
+
+    $query = new WP_Query($args);
+    $posts = $query->posts;
+    foreach ($posts as $post){
+        $short = CFS()->get('short_description', $post->ID);
+        $post->post_mime_type = $short;
+        $thumbnail = get_the_post_thumbnail( $post->ID, 'medium', $default_attr = array(
+            'class' => "woocommerce-placeholder wp-post-image",
+            'alt'   => trim(strip_tags( $post->post_title )),
+            'title' => trim(strip_tags( $post->post_title )),
+        ));
+        $post->post_modified = $thumbnail;
+    }
+
+    echo json_encode($posts);
+
+    wp_die();
+}

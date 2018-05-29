@@ -32,7 +32,7 @@ function category_filter($atts)
         'meta_query' => '',
     ));
 
-    fw_print($terms);
+//    fw_print($terms);
 
 
     $cat = array();//массив для категорий
@@ -41,12 +41,11 @@ function category_filter($atts)
 
     foreach( $terms as $term ){//проходим циклом по категорияим
         if ( $term->parent == 0) { //у которых нет родителя
-            $cat[] = $term->name;//записываем в массив $cat полученные имена
+            $cat[] = $term;//записываем в массив $cat полученные имена
         }
         if ( $term->parent != 0) {//проходим циклом по категорияим, у которых есть родитель
-            $subcat[] = $term->name;//записываем в массив $subcat полученные имена
+            $subcat[] = $term;//записываем в массив $subcat полученные имена
             $subparrent[] = $term->parent;//записываем в массив $subparrent полученные айдишники категорий
-            $id = $term->term_id;
         }
     }
 
@@ -56,20 +55,21 @@ function category_filter($atts)
     $i = 0;//объявляем счетчик и обнулем его
 
     foreach ( $cat as $c ) {//идем циклом по массиву $cat и записываем в
-        $optins[$i] = "<option value='$c'>$c</option>";//массив $optins имя категории
+        $optins[$i] = "<option value='$c->term_id'>$c->name</option>";//массив $optins имя категории
         $i++;//и идем к слудующему элементу
     }
     $i = 0;//обнуляем счетчик
     foreach ( $subcat as $c ) {//идем циклом по массиву $subcat и записываем в
-        $suboptins[$i] = "<option value='$c'>$c</option>";//массив $suboptins имя подкатегории
+        $suboptins[$i] = "<option value='$c->term_id'>$c->name</option>";//массив $suboptins имя подкатегории
         $i++;//и идем к слудующему элементу
     }
 
     $html = "
     <div class='catalog__selects'>
+    <div id='ttt'></div>
         <p class='catalog__subtitle'>Filtr</p>
         <div class='catalog__select'>
-          <select>";
+          <select id='catSelect'>";
             foreach ( $optins as $o ) {
                 $html .= "$o";
             }
@@ -77,7 +77,7 @@ function category_filter($atts)
           "</select>
         </div>
         <div class='catalog__select'>
-          <select>";
+          <select id='subcatSelect'>";
             for ($i = 0; $i < count( $suboptins ); $i++ ) {
                 if ( $subparrent[$i] == 20 )
                     $html .= "$suboptins[$i]";
@@ -91,6 +91,7 @@ function category_filter($atts)
 //        fw_print( $subcat );
 
     return $html;
+
 }
 
 
