@@ -214,67 +214,41 @@ function delay_remove_sorting() {
 }
 
 // category ajax
-add_action('wp_ajax_myCatAjax', 'my_action_cat_callback');
+add_action('wp_ajax_myCatAjax', 'my_action_cat_callback');//
 add_action('wp_ajax_nopriv_myCatAjax', 'my_action_cat_callback');
 
 function my_action_cat_callback() {
-    $args = array(
-        'tax_query' => array(
-            array(
-                'taxonomy' => 'product_cat',
-                'field'    => 'id',
-                'terms'    => $_POST['postID']
-            )
-        )
-    );
+    $selectedCat = get_term_by( 'id', $_POST['catID'], 'product_cat', 'OBJECT' );
 
-    $query = new WP_Query($args);
-    $posts = $query->posts;
-    foreach ($posts as $post){
-        $short = CFS()->get('short_description', $post->ID);
-        $post->post_mime_type = $short;
-        $thumbnail = get_the_post_thumbnail( $post->ID, 'medium', $default_attr = array(
-            'class' => "woocommerce-placeholder wp-post-image",
-            'alt'   => trim(strip_tags( $post->post_title )),
-            'title' => trim(strip_tags( $post->post_title )),
-        ));
-        $post->post_modified = $thumbnail;
-    }
-
-    echo json_encode($posts);
+    echo json_encode($selectedCat);
 
     wp_die();
+
+//    $args = array(//массив
+//        'tax_query' => array(
+//            array(
+//                'taxonomy' => 'product_cat',//название таксономии из которой нужно отсортировывать
+//                'field'    => 'id',//поле по которому нужно отсортировывать
+//                'terms'    => $_POST['catID']//посты, которые нужно отсортировывать
+//            )
+//        ),
+//        'posts_per_page' => -1
+//    );
+//
+//    $query = new WP_Query($args);//объявлеяем класс для получения постов
+//    $posts = $query->posts;//объявляем переменнуюб в которую передаем посты
+//    foreach ($posts as $post){//идем циклом по постам
+//        $short = CFS()->get('short_description', $post->ID);//получаем значение краткого описания в нужном посте
+//        $post->post_mime_type = $short;//передаем в поле post_mime_type значение краткого описания
+//        $thumbnail = get_the_post_thumbnail( $post->ID, 'medium', $default_attr = array(//получаем картинку поста
+//            'class' => "woocommerce-placeholder wp-post-image",//задаем картинке класс
+//            'alt'   => trim(strip_tags( $post->post_title )),//получаем описание
+//            'title' => trim(strip_tags( $post->post_title )),//получаем заголовок
+//        ));
+//        $post->post_modified = $thumbnail;//передем картинку в поле post_modified
+//    }
+//
+//    echo json_encode($posts);//распарсиваем полученный аяксом джейсон
 }
 
-// subcategory ajax
-add_action('wp_ajax_mySubcatAjax', 'my_action_subcaT_callback');
-add_action('wp_ajax_nopriv_mySubcatAjax', 'my_action_subcaT_callback');
-
-function my_action_subcaT_callback() {
-    $args = array(
-        'tax_query' => array(
-            array(
-                'taxonomy' => 'product_cat',
-                'field'    => 'id',
-                'terms'    => $_POST['postID']
-            )
-        )
-    );
-
-    $query = new WP_Query($args);
-    $posts = $query->posts;
-    foreach ($posts as $post){
-        $short = CFS()->get('short_description', $post->ID);
-        $post->post_mime_type = $short;
-        $thumbnail = get_the_post_thumbnail( $post->ID, 'medium', $default_attr = array(
-            'class' => "woocommerce-placeholder wp-post-image",
-            'alt'   => trim(strip_tags( $post->post_title )),
-            'title' => trim(strip_tags( $post->post_title )),
-        ));
-        $post->post_modified = $thumbnail;
-    }
-
-    echo json_encode($posts);
-
-    wp_die();
-}
+//pagination

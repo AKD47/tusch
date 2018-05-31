@@ -1,6 +1,8 @@
 <?php
 function category_filter($atts)
 {
+    global $wp_query;
+    $term_obj = $wp_query->queried_object ? $wp_query->queried_object : null;
 
     $params = shortcode_atts(array(), $atts);
 
@@ -32,7 +34,7 @@ function category_filter($atts)
         'meta_query' => '',
     ));
 
-//    fw_print($terms);
+//    fw_print($term_obj);
 
 
     $cat = array();//массив для категорий
@@ -43,9 +45,14 @@ function category_filter($atts)
         if ( $term->parent == 0) { //у которых нет родителя
             $cat[] = $term;//записываем в массив $cat полученные имена
         }
-        if ( $term->parent != 0) {//проходим циклом по категорияим, у которых есть родитель
-            $subcat[] = $term;//записываем в массив $subcat полученные имена
-            $subparrent[] = $term->parent;//записываем в массив $subparrent полученные айдишники категорий
+        if ( $term->parent != 0) {//проходим циклом по подкатегорияим, у которых есть родитель
+            if ($term->parent == $term_obj->term_id) {//если родитель подкатегории равен id родителя
+                $subcat[] = $term;//записываем в массив $subcat полученные имена
+                $subparrent[] = $term->parent;//записываем в массив $subparrent полученные айдишники категорий
+            } else if ($term_obj->parent == $term->parent) { //если родитель совпадает
+                $subcat[] = $term;//записываем в массив $subcat полученные имен
+                $current_category_top_level = $term_obj->parent;//
+            }
         }
     }
 
@@ -55,12 +62,24 @@ function category_filter($atts)
     $i = 0;//объявляем счетчик и обнулем его
 
     foreach ( $cat as $c ) {//идем циклом по массиву $cat и записываем в
-        $optins[$i] = "<option value='$c->term_id'>$c->name</option>";//массив $optins имя категории
+        $selected = "";
+        if (isset($term_obj))
+            if ($c->term_id == $term_obj->term_id || $c->term_id == $current_category_top_level)
+                $selected = "selected";
+            else
+                $selected = "";
+        $optins[$i] = "<option $selected value='$c->term_id'>$c->name</option>";//массив $optins имя категории
         $i++;//и идем к слудующему элементу
     }
     $i = 0;//обнуляем счетчик
     foreach ( $subcat as $c ) {//идем циклом по массиву $subcat и записываем в
-        $suboptins[$i] = "<option value='$c->term_id'>$c->name</option>";//массив $suboptins имя подкатегории
+        $selected = "";
+        if (isset($term_obj))
+            if ($c->term_id == $term_obj->term_id)
+                $selected = "selected";
+            else
+                $selected = "";
+        $suboptins[$i] = "<option $selected value='$c->term_id'>$c->name</option>";//массив $suboptins имя подкатегории
         $i++;//и идем к слудующему элементу
     }
 
@@ -69,7 +88,8 @@ function category_filter($atts)
     <div id='ttt'></div>
         <p class='catalog__subtitle'>Filtr</p>
         <div class='catalog__select'>
-          <select id='catSelect'>";
+          <select id='catSelect'>
+            <option value='0'>...</option>";
             foreach ( $optins as $o ) {
                 $html .= "$o";
             }
@@ -77,10 +97,10 @@ function category_filter($atts)
           "</select>
         </div>
         <div class='catalog__select'>
-          <select id='subcatSelect'>";
-            for ($i = 0; $i < count( $suboptins ); $i++ ) {
-                if ( $subparrent[$i] == 20 )
-                    $html .= "$suboptins[$i]";
+          <select id='subcatSelect'>
+            <option value='0'>...</option>";
+            foreach ( $suboptins as $o ) {
+                $html .= "$o";
             }
             $html .=
           "</select>

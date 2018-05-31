@@ -37,6 +37,12 @@
                 </div>
             </div>
             <div class="footer__art">© Tusch s. r. o. 2018. Všechna práva vyhrazena.</div>
+
+            <div class="modal"><span class="modal__close">X</span>
+                <p>Tuto sekci pro vás připravujeme.</p>
+            </div>
+            <div id="overlay"></div>
+
         </footer><!-- #colophon -->
 </div><!-- #page -->
 

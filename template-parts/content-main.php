@@ -63,21 +63,21 @@ $news = new WP_Query(array(
 
         <div class="products__wrapper">
 
-            <a href="/shop" class="products__element">
+            <a href="/product-category/cat_1" class="products__element">
                 <div class="products__element--icon">
                     <img src="<?php bloginfo('template_directory'); ?>/assets/img/drill.png" alt="icon">
                 </div>
                 <p>Stavební<br>mechanizace</p>
             </a>
 
-            <a href="/shop" class="products__element">
+            <a href="/product-category/cat_2" class="products__element">
                 <div class="products__element--icon">
                     <img src="<?php bloginfo('template_directory'); ?>/assets/img/cir-saw.png" alt="icon">
                 </div>
                 <p>Diamantové<br>nástroje</p>
             </a>
 
-            <a href="/shop" class="products__element">
+            <a href="#" class="products__element show-modal">
                 <div class="products__element--icon">
                     <img src="<?php bloginfo('template_directory'); ?>/assets/img/concr-mixer.png" alt="icon">
                 </div>
@@ -85,14 +85,14 @@ $news = new WP_Query(array(
                 <p>Transport betonu<br>Betonářské formy</p>
             </a>
 
-            <a href="/shop" class="products__element">
+            <a href="/product-category/cat_4" class="products__element">
                 <div class="products__element--icon">
                     <img src="<?php bloginfo('template_directory'); ?>/assets/img/pipes.png" alt="icon">
                 </div>
                 <p>Stavba potrubních<br>systémů - plast - ocel</p>
             </a>
 
-            <a href="/shop" class="products__element">
+            <a href="/product-category/cat_3" class="products__element">
                 <div class="products__element--icon">
                     <img src="<?php bloginfo('template_directory'); ?>/assets/img/hid-press.png" alt="icon">
                 </div>

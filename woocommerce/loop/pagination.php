@@ -44,3 +44,6 @@ if ( $total <= 1 ) {
 		) ) );
 	?>
 </nav>
+<nav id="customPagination">
+
+</nav>
